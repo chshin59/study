@@ -1,0 +1,239 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+# ch3. 데이터 타입(p. 36)
+
+## 1. 변수
+
+## 2. 스칼라
+
+1.  숫자
+
+    ```{r collapse=TRUE}
+    a <- 3
+    b <- 4.5
+    c <- a + b
+    print(c)
+    ```
+
+2.  NA
+
+    ```{r collapse=TRUE}
+    one <- 100
+    two <- 75
+    three <- 80
+    four <- NA
+    is.na(four)
+    ```
+
+3.  NULL
+
+    ```{r collapse=TRUE}
+    x <-NULL
+    is.null(x)
+    is.null(1)
+    is.null(NA)
+    is.na(NULL)
+    ```
+
+4.  문자열
+
+    ```{r collapse=TRUE}
+    a <- 'hello'
+    print(a)
+    ```
+
+5.  진리값
+
+    ```{r collapse=TRUE}
+    TRUE & TRUE
+    TRUE & FALSE
+    TRUE | TRUE
+    TRUE | FALSE
+    !TRUE
+    !FALSE
+    ```
+
+    ```{r collapse=TRUE}
+    # 벡터의 경우 원소간 계산
+    c(TRUE, TRUE) & c(TRUE, FALSE)
+
+
+    # 한개의 값만 반환
+    c(TRUE, TRUE) && c(TRUE, FALSE)
+    ```
+
+6.  요인(Factor) - 범주형 변수
+
+    ```{r collapse=TRUE}
+    sex <- factor('m', c('m', 'f'))
+    sex
+
+    # 범주의 수
+    nlevels(sex)
+
+    # 범주 목록
+    levels(sex)
+
+    levels(sex)[1]
+    levels(sex)[2]
+
+    levels(sex) <- c('male', 'female')
+    sex
+    ```
+
+    순서형 변수 - `factor(c(), ordered=TRUE)`
+
+    ```{r collapse=TRUE}
+    ordered(c('a', 'b', 'c'))
+    factor(c('a', 'b', 'c'), ordered=TRUE)
+    ```
+
+## 3. 벡터(vector)
+
+> 배열과 동일
+
+1.  벡터의 정의
+
+    ```{r collapse=TRUE}
+    x <- c(1, 2, 3, 4, 5)
+    ```
+
+    ```{r collapse=TRUE}
+    # 인자들은 한가지 타입이어야 함
+    x <- c('1', 2, '3')
+    x
+    ```
+
+    ```{r collapse=TRUE}
+    # 벡터 안에 벡터 불가능
+    c(1, 2, 3)
+    c(1, 2, 3, c(1, 2, 3))
+    ```
+
+    ```{r collapse=TRUE}
+    x <- 1:10
+    x
+    x <- 5:10
+    x
+    seq(1, 10, 2)
+    ```
+
+    ```{r collapse=TRUE}
+    seq_along(c('a', 'b', 'c'))
+    seq_len(3)
+    ```
+
+    ```{r collapse=TRUE}
+    x <- c(1, 3, 4)
+    names(x) <- c('kim', 'seo', 'park')
+    x
+    ```
+
+2.  벡터내 테이터 접근
+
+    ```{r collapse=TRUE}
+    x <- c('a', 'b', 'c')
+    x[1]
+    x[3]
+
+    # 특정 요소 제외
+    x[-1]
+    x[-2]
+
+    x[c(1, 2)]
+    x[c(1, 3)]
+
+    x[1:2]
+    x[1:3]
+    ```
+
+    ```{r collapse=TRUE}
+    x <- c(1, 3, 4)
+    names(x) <- c('kim', 'seo', 'park')
+    x['seo']
+    x[c('seo', 'park')]
+
+    names(x)[2]
+    ```
+
+    ```{r collapse=TRUE}
+    x <- c('a', 'b', 'c')
+    length(x)
+    nrow(x)  # nrow()는 행렬만 가능
+    NROW(x)  # NROW()는 벡터와 행렬 모두 가능
+    ```
+
+3.  벡터 연산
+
+    ```{r collapse=TRUE}
+    'a' %in% c('a', 'b', 'c')
+    'd' %in% c('a', 'b', 'c')
+    ```
+
+    ```{r collapse=TRUE}
+    setdiff(c('a', 'b', 'c'), c('a', 'd'))
+    union(c('a', 'b', 'c'), c('a', 'd'))
+    intersect(c('a', 'b', 'c'), c('a', 'd'))
+    ```
+
+    ```{r collapse=TRUE}
+    # 집합 간 비교는 setequl()을 사용한다.
+    setequal(c('a', 'b', 'c'), c('a', 'd'))
+    setequal(c('a', 'b', 'c'), c('a', 'b', 'c', 'c'))
+    ```
+
+4.  seq
+
+    ```{r collapse=TRUE}
+    seq(1, 5)
+    seq(1, 5, 2)
+    1:5
+    ```
+
+5.  rep
+
+    ```{r collapse=TRUE}
+    rep(1:2, 5)
+    rep(1:2, each=5)
+    ```
+
+## 4. 리스트(List)
+
+> 리스트는 다른 언어에서 흔히 보는 해싱 또는 딕셔너리에 해당하며, (키, 값)형태의 데이터를 담는 연관 배열(associative array)이다.
+
+1.  리스트의 정의
+
+    ```{r collapse=TRUE}
+    x <- list(name='foo', height=70)
+    x
+    ```
+
+    ```{r collapse=TRUE}
+    x <- list(name='foo', height=c(1, 3, 5))
+    x
+    ```
+
+    ```{r collapse=TRUE}
+    list(a=list(val=c(1, 2, 3)), b=list(val=c(1, 2, 3, 4)))
+    ```
+
+2.  리스트 내 데이터 접근
+
+    ```{r collapse=TRUE}
+    x <- list(name='foo', height=c(1, 3, 5))
+    x$name
+    x$height
+
+    x[[1]]
+    x[[2]]
+
+    # [index]는 (key, value)를 가진 서브 리스트 반환
+    x[1]
+    x[2]
+    ```
+
+## 5. 행렬(Matrix)
