@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+   function App() {
+      const [minutes, setMinutes] = React.useState(0);
+      const [hours, setHours] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(false);
+      const onChange = (event) => {
+        if (event.target.id === "minutes") {
+          setMinutes(current => event.target.value);
+          setHours(current => Math.round(event.target.value / 60));
+        } else if (event.target.id === "hours") {
+          setHours(current => event.target.value);
+          setMinutes(current => event.target.value * 60);
+        };
+      };
+      const reset = () => {
+        setMinutes(0);
+        setHours(0);
+      };
+      const onFlip = () => {
+        setFlipped(current => !current);
+      };
+
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input 
+              id="minutes" 
+              type="number" 
+              value={minutes} 
+              placeholder="Minutes" 
+              onChange={onChange}
+              disabled={flipped}
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input 
+              id="hours" 
+              type="number" 
+              value={hours} 
+              placeholder="Hours"
+              onChange={onChange}
+              disabled={!flipped}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>Flipped</button>
+        </div>
+      );
+    }
+    
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
