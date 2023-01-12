@@ -1,5 +1,7 @@
 # 오라클
 
+https://opentutorials.org/course/3885
+
 ## SQL
 > Structured Query Language
 
@@ -15,13 +17,13 @@
 
 > 스키마에 속하는 표들을 정의하는 게 스키마
 
-혼자서 쓸려고 오라클을 쓰는 경우는 없음
+혼자서 쓰려고 오라클을 쓰는 경우는 없음
 많은 사용자가 오라클 데이터베이스가 속한 컴퓨터에 네트워크를 통해 접속하게 됨
 
 => 여러 사용자를 만들 수 있고 각각의 사용자는 자신이 관리하는 테이블에 접속할 수 있음
 => 사용자를 만들면 사용자에 속하는 스키마를 만들게 됨
 
-![사용자와 스키마](Oracle.assets/사용자와 스키마.jpg)
+![사용자와_스키마](Oracle.assets/사용자와_스키마.jpg)
 
 
 
@@ -60,13 +62,12 @@ CREATE TABLE topic(
     created DATE NOT NULL,
 	CONSTRAINT PK_TOPIC PRIMARY KEY (id)
 );
-
-/*
 SELECT table_name FROM user_tables;
+```
+```
 TABLE_NAME
 --------------------------------------------------------------------------------
 TOPIC
-*/
 ```
 
 
@@ -144,4 +145,3 @@ commit;
 
 
 ## PRIMARY KEY
-
