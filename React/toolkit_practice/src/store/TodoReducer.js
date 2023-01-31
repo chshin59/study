@@ -2,31 +2,27 @@ import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getList = createAsyncThunk("GET_TODO", async () => {
-  const response = await axios
-    .get("http://localhost:8000/list")
-    .then()
-    .catch((err) => console.log(err));
-  console.log(response);
+  const response = await axios.get("http://localhost:8000/list");
   return response.data;
 });
 
-export const addList = createAsyncThunk("ADD_TODO", async (newList) => {
-  const response = await axios.post("http://localhost:8000/list", newList);
+export const addList = createAsyncThunk("ADD_TODO", async (newTodo) => {
+  const response = await axios.post("http://localhost:8000/list", newTodo);
   return response.data;
 });
 
-export const deleteList = createAsyncThunk("DELETE_TODO", async (listId) => {
-  const response = await axios.delete(`http://localhost:8000/list/${listId}`);
-  return listId;
+export const deleteList = createAsyncThunk("DELETE_TODO", async (todoId) => {
+  await axios.delete(`http://localhost:8000/list/${todoId}`);
+  return todoId;
 });
 
 export const updateList = createAsyncThunk(
   "UPDATE_LIST",
-  async ({ listId, content }) => {
-    const response = await axios.put(`http://localhost:8000/list/${listId}`, {
+  async ({ todoId, content }) => {
+    await axios.put(`http://localhost:8000/list/${todoId}`, {
       content: content,
     });
-    return { listId, content };
+    return { todoId, content };
   }
 );
 
@@ -37,15 +33,15 @@ export const todoReducer = createSlice({
   extraReducers: {
     [getList.fulfilled]: (state, { payload }) => [...payload],
     [addList.fulfilled]: (state, { payload }) => [...state, payload],
-    [deleteList.fulfilled]: (state, { payload }) => window.location.reload(),
-    [updateList.fulfilled]: (state, { payload }) => {
-      return state.map((list) => {
-        if (list.id === payload.listId) {
-          return { ...list, content: payload.content };
+    [deleteList.fulfilled]: (state, { payload }) =>
+      state.filter((todo) => todo.id !== payload),
+    [updateList.fulfilled]: (state, { payload }) =>
+      state.map((todo) => {
+        if (todo.id === payload.todoId) {
+          return { ...todo, content: payload.content };
         } else {
-          return list;
+          return todo;
         }
-      });
-    },
+      }),
   },
 });

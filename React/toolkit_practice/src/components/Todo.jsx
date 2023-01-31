@@ -11,34 +11,32 @@ const Todo = () => {
 
   useEffect(() => {
     dispatch(getList());
-    console.log("몇번?");
   }, []);
 
   const onCreate = (e) => {
     e.preventDefault();
-    if (inputValue) {
-      const newList = { content: inputValue };
-      dispatch(addList(newList));
-      setInputValue("");
-    } else {
-      console.log("적으세요!");
-    }
+    if (!inputValue) return;
+    const newList = { content: inputValue };
+    dispatch(addList(newList));
+    setInputValue("");
   };
 
   return (
-    <form action="" onSubmit={onCreate}>
-      <input
-        type="text"
-        onChange={(e) => setInputValue(e.target.value)}
-        value={inputValue}
-      />
-      <button type="submit">추가</button>
+    <>
+      <form action="" onSubmit={onCreate}>
+        <input
+          type="text"
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
+        />
+        <button type="submit">추가</button>
+      </form>
       <ul>
-        {todoList.map((list) => (
-          <TodoList key={list.id} listId={list.id} content={list.content} />
+        {todoList.map((todo) => (
+          <TodoList key={todo.id} todoId={todo.id} content={todo.content} />
         ))}
       </ul>
-    </form>
+    </>
   );
 };
 

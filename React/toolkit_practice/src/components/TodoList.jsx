@@ -2,34 +2,31 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteList, updateList } from "../store/TodoReducer";
 
-const TodoList = ({ listId, content }) => {
+const TodoList = ({ todoId, content }) => {
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
 
   const onDelete = (e) => {
     e.preventDefault();
-    dispatch(deleteList(listId));
+    dispatch(deleteList(todoId));
   };
 
   const onUpdate = (e) => {
     e.preventDefault();
-    if (inputValue) {
-      dispatch(updateList({ listId, content: inputValue }));
-      setInputValue("");
-    } else {
-      console.log("다시 적으세요!");
-    }
+    if (!inputValue) return;
+    dispatch(updateList({ todoId, content: inputValue }));
+    setInputValue("");
   };
 
   return (
     <>
       <li>
-        {listId}.{content}
+        {todoId}.{content}
       </li>
       <input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-      ></input>
+      />
       <button type="button" onClick={onDelete}>
         삭제
       </button>
